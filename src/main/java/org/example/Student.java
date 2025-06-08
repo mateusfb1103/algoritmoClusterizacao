@@ -1,39 +1,53 @@
 package org.example;
 
+import java.util.Comparator;
+import java.util.List;
+
 public class Student {
 
-    private String name;
     private Integer age;
+
     private double average;
-    private double absence;
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", average=" + average +
-                ", absence=" + absence +
-                '}';
-    }
+    private double abscense;
 
-    public Student(String name, Integer age, double average, double absence) {
-        this.name = name;
+    public Student(Integer age, double average, double abscense) {
         this.age = age;
         this.average = average;
-        this.absence = absence;
+        this.abscense = abscense;
     }
 
-    public double[] toVector() {
-        return new double[] {
-                age,
-                average,
-                absence
-        };
+    public static Student of() {
+        return new Student(0, 0, 0);
     }
 
-    public String getName() {
-        return name;
+    public Student accumule(final Student student) {
+        age += student.getAge();
+        average += student.getAverage();
+        abscense += student.getAbscense();
+
+        return this;
+    }
+
+    public void divide(final int divisor) {
+
+        if (divisor < 1) {
+            throw new IllegalArgumentException("Divisor deve ser maior que 012");
+        }
+
+        age = age / divisor;
+        average = average / divisor;
+        abscense = abscense / divisor;
+    }
+
+    public Cluster calculateMinDistanceEuclidienne(List<Cluster> clusters) {
+
+        Cluster cluster = clusters.stream()
+                .min(Comparator.comparingDouble(c -> c.calculatedDistance(this, c.getCentroid())))
+                .orElseThrow();
+
+        cluster.addStudent(this);
+        return cluster;
     }
 
     public Integer getAge() {
@@ -44,24 +58,16 @@ public class Student {
         return average;
     }
 
-    public double getAbsence() {
-        return absence;
+    public double getAbscense() {
+        return abscense;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public void setAverage(float average) {
-        this.average = average;
-    }
-
-    public void setAbsence(float absence) {
-        this.absence = absence;
+    @Override
+    public String toString() {
+        return "Student{" +
+                "age=" + age +
+                ", average=" + average +
+                ", abscense=" + abscense +
+                '}';
     }
 }
-

@@ -1,17 +1,33 @@
 package org.example;
+
+import java.util.ArrayList;
 import java.util.List;
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+
 public class Main {
     public static void main(String[] args) {
-        List<Student> students = ReadCSV.readCSV("C:/Users/vinic/IdeaProjects/clusterizacao/src/main/java/org/example/fileStudents.csv");
 
-        Cluster cluster = new Cluster(students);
-        Student novoStudent = new Student("Haniel", 22, 7.8f, 0);
-        Student novoStudent2 = new Student("Carlos", 19, 8.0f, 0.6f);
-        cluster.addStudent(novoStudent);
-        cluster.addStudent(novoStudent2);
-        cluster.printCluster();
+        List<Student> Allstudents = ReadCSV.readCSV("C:/Users/vinic/IdeaProjects/clusterizacao/src/main/java/org/example/fileStudents.csv");
+        List<Student> studentsCluster1 = new ArrayList<>();
+        List<Student> studentsCluster2 = new ArrayList<>();
 
+        studentsCluster1.add(Allstudents.getFirst());
+        studentsCluster2.add(Allstudents.getLast());
+
+        Cluster cluster1 = new Cluster(Allstudents.getFirst(), studentsCluster1);
+        Cluster cluster2 = new Cluster(Allstudents.getLast(), studentsCluster2);
+
+        List<Cluster> clusters = new ArrayList<>();
+        clusters.add(cluster1);
+        clusters.add(cluster2);
+
+        System.out.println("cluster 1 : " + cluster1);
+        System.out.println("cluster 2 : " + cluster2);
+        System.out.println();
+
+        Student student = new Student(20, 7.0, 0.2);
+        student.calculateMinDistanceEuclidienne(clusters);
+        System.out.println("cluster 1 : " + cluster1);
+        System.out.println("cluster 2 : " + cluster2);
     }
 }
